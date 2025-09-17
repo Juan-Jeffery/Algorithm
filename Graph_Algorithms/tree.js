@@ -181,7 +181,7 @@ export function runAlgorithm(alg) {
         .transition()
         .duration(300)
         .attr("fill", morandiYellow);
-    }, i*400);
+    }, i*600);
     animationQueue.push(id);
   });
 }

@@ -2,89 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Graph Algorithms Visualization</title>
+  <title>Algorithm Visualizer</title>
+  <link rel="stylesheet" href="style.css">
   <script src="https://d3js.org/d3.v7.min.js"></script>
-<style>
-  body {
-    display: flex;
-    flex-direction: column;
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    background: #f4f6fa;
-    height: 100vh;
-  }
-  #main {
-    display: flex;
-    flex: 1;
-  }
-  #sidebar {
-    width: 220px;
-    padding: 20px;
-    background: #2c3e50;
-    color: white;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  }
-  #sidebar h2 {
-    margin-top: 0;
-    font-size: 20px;
-    border-bottom: 1px solid #7f8c8d;
-    padding-bottom: 10px;
-  }
-  .alg-btn {
-    display: block;
-    margin: 10px 0;
-    padding: 10px;
-    background: #34495e;
-    cursor: pointer;
-    text-align: center;
-    border-radius: 5px;
-    transition: background 0.3s;
-    color: white;
-  }
-  .alg-btn:hover { background: #3d566e; }
-  .alg-btn.active { background: #1abc9c; }
-  #graph-area {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-  }
-  #graph {
-    flex: 1;
-    border: 1px solid #ccc;
-    background: white;
-    border-radius: 8px;
-  }
-  circle { stroke:#333; stroke-width:1px; }
-  line { stroke:#999; stroke-width:2px; }
-  #info {
-    margin-top: 20px;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    font-size: 15px;
-    line-height: 1.8;
-    color: #2c3e50;
-  }
-  #info h3 {
-    margin-top: 0;
-    font-size: 18px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 8px;
-  }
-  #info p {
-    margin: 8px 0;
-  }
-</style>
 </head>
 <body>
 <div id="main">
   <div id="sidebar">
     <h2>Graph Algorithms</h2>
-    <div class="alg-btn" data-alg="BFS">BFS</div>
-    <div class="alg-btn" data-alg="DFS">DFS</div>
-    <div class="alg-btn" data-alg="Dijkstra">Dijkstra</div>
+    <div class="alg-btn" data-group="graph" data-alg="BFS">BFS</div>
+    <div class="alg-btn" data-group="graph" data-alg="DFS">DFS</div>
+    <div class="alg-btn" data-group="graph" data-alg="Dijkstra">Dijkstra</div>
+    <h2>Sorting Algorithms</h2>
+    <div class="alg-btn" data-group="sort" data-alg="Bubble">Bubble Sort</div>
+    <div class="alg-btn" data-group="sort" data-alg="Insertion">Insertion Sort</div>
+    <div class="alg-btn" data-group="sort" data-alg="Merge">Merge Sort</div>
+    <div class="alg-btn" data-group="sort" data-alg="Quick">Quick Sort</div>
   </div>
   <div id="graph-area">
     <svg id="graph" width="800" height="500"></svg>
@@ -94,21 +27,28 @@
   </div>
 </div>
 
-<!-- 載入模組 -->
 <script type="module">
-  import { drawTree, runAlgorithm } from './Graph_Algorithms/tree.js';
+  import { drawTree, runAlgorithm as runGraph } from './Graph_Algorithms/tree.js';
+  import { drawBars, runSort } from './Sorting_Algorithms/sort.js';
   import { updateInfo } from './info.js';
 
-  // 初始化圖形
-  drawTree();
+  drawTree(); // default view
 
-  // 綁定按鈕事件
   document.querySelectorAll(".alg-btn").forEach(btn => {
     btn.addEventListener("click", () => {
+      const group = btn.dataset.group;
       const alg = btn.dataset.alg;
       document.querySelectorAll(".alg-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      runAlgorithm(alg);
+
+      if (group === "graph") {
+        drawTree();
+        runGraph(alg);
+      } else if (group === "sort") {
+        drawBars();
+        runSort(alg);
+      }
+
       updateInfo(alg);
     });
   });
