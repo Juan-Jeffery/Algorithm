@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Algorithm Visualizer</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+<div id="main">
+  <div id="sidebar">
+    <h2>Graph Algorithms</h2>
+    <div class="alg-btn" data-group="graph" data-alg="BFS">BFS</div>
+    <div class="alg-btn" data-group="graph" data-alg="DFS">DFS</div>
+    <div class="alg-btn" data-group="graph" data-alg="Dijkstra">Dijkstra</div>
+    <h2>Sorting Algorithms</h2>
+    <div class="alg-btn" data-group="sort" data-alg="Bubble">Bubble Sort</div>
+    <div class="alg-btn" data-group="sort" data-alg="Insertion">Insertion Sort</div>
+    <div class="alg-btn" data-group="sort" data-alg="Merge">Merge Sort</div>
+    <div class="alg-btn" data-group="sort" data-alg="Quick">Quick Sort</div>
+  </div>
+  <div id="graph-area">
+    <svg id="graph" width="800" height="500"></svg>
+    <div id="info">
+      <div id="details">Click an algorithm to see its animation and complexity.</div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { drawTree, runAlgorithm as runGraph } from './Graph_Algorithms/tree.js';
+  import { drawBars, runSort } from './Sorting_Algorithms/sort.js';
+  import { updateInfo } from './info.js';
+
+  drawTree(); // default view
+
+  document.querySelectorAll(".alg-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const group = btn.dataset.group;
+      const alg = btn.dataset.alg;
+      document.querySelectorAll(".alg-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      if (group === "graph") {
+        drawTree();
+        runGraph(alg);
+      } else if (group === "sort") {
+        drawBars();
+        runSort(alg);
+      }
+
+      updateInfo(alg);
+    });
+  });
+</script>
+</body>
+</html>
