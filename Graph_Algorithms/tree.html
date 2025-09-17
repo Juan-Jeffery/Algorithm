@@ -170,11 +170,20 @@ function drawTree(rootData){
     .data(root.descendants())
     .enter()
     .append("circle")
-    .attr("cx", d=>d.x+50)
-    .attr("cy", d=>d.y+50)
+    .attr("cx", d => d.x + 50)
+    .attr("cy", d => d.y + 50)
     .attr("r", 25)
     .attr("fill", morandiBlue)
-    .attr("class","tree-node");
+    .attr("stroke", "#34495e")
+    .attr("stroke-width", 2)
+    .attr("class", "tree-node")
+    .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))")
+    .on("mouseover", function() {
+      d3.select(this).attr("fill", "#85b8d6");
+    })
+    .on("mouseout", function() {
+      d3.select(this).attr("fill", morandiBlue);
+    });
 
   svg.selectAll("text")
     .data(root.descendants())
@@ -184,6 +193,19 @@ function drawTree(rootData){
     .attr("y", d=>d.y+55)
     .attr("text-anchor","middle")
     .text(d => labels[labelIndex++]);
+
+  svg.selectAll(".edge-label")
+    .data(root.links())
+    .enter()
+    .append("text")
+    .attr("class", "edge-label")
+    .attr("x", d => (d.source.x + d.target.x)/2 + 50)
+    .attr("y", d => (d.source.y + d.target.y)/2 + 50 - 20)
+    .attr("text-anchor", "middle")
+    .attr("font-size", 13)
+    .attr("fill", "#2980b9") // 藍色
+    .style("font-weight", "bold") // 粗體
+    .text(d => `${d.target.data.weight || 1}`);
 }
 
 drawTree(treeData);
