@@ -18,6 +18,9 @@
     <div class="alg-btn" data-group="sort" data-alg="Insertion">Insertion Sort</div>
     <div class="alg-btn" data-group="sort" data-alg="Merge">Merge Sort</div>
     <div class="alg-btn" data-group="sort" data-alg="Quick">Quick Sort</div>
+    <h2>Greedy Algorithms</h2>
+    <div class="alg-btn" data-group="greedy" data-alg="Huffman">Huffman Coding</div>
+    <div class="alg-btn" data-group="greedy" data-alg="Activity">Activity Selection</div>
   </div>
   <div id="graph-area">
     <svg id="graph" width="800" height="500"></svg>
@@ -30,14 +33,17 @@
 <script type="module">
   import { drawTree, runAlgorithm as runGraph } from './Graph_Algorithms/tree.js';
   import { drawBars, runSort } from './Sorting_Algorithms/sort.js';
+  import { drawGreedy, runGreedy } from './Greedy_Algorithms/greedy.js';
   import { updateInfo } from './info.js';
 
-  drawTree(); // default view
+  // default view
+  drawTree();
 
   document.querySelectorAll(".alg-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const group = btn.dataset.group;
       const alg = btn.dataset.alg;
+
       document.querySelectorAll(".alg-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
@@ -47,6 +53,9 @@
       } else if (group === "sort") {
         drawBars();
         runSort(alg);
+      } else if (group === "greedy") {
+        drawGreedy();
+        runGreedy(alg);
       }
 
       updateInfo(alg);
