@@ -27,6 +27,12 @@
       <div class="alg-btn" data-group="greedy" data-alg="Huffman">Huffman Coding</div>
       <div class="alg-btn" data-group="greedy" data-alg="Activity">Activity Selection</div>
     </div>
+    <div class="section">
+      <h2>Dynamic Programming</h2>
+      <div class="alg-btn" data-group="dp" data-alg="LCS">Longest Common Subsequence</div>
+      <div class="alg-btn" data-group="dp" data-alg="Knapsack">Knapsack Problem</div>
+      <div class="alg-btn" data-group="dp" data-alg="Floyd-Warshall">Floyd-Warshall</div>
+    </div>
   </div>
   <div id="graph-area">
     <svg id="graph" width="800" height="500"></svg>
@@ -40,6 +46,7 @@
   import { drawTree, runAlgorithm as runGraph } from './Graph_Algorithms/tree.js';
   import { drawBars, runSort } from './Sorting_Algorithms/sort.js';
   import { drawGreedy, runGreedy } from './Greedy_Algorithms/greedy.js';
+  import { drawDP, runDP } from './Dynamic_Programming/dynamic_programming.js';
   import { updateInfo } from './info.js';
   document.querySelectorAll("#sidebar .section h2").forEach(header => {
     header.addEventListener("click", () => {
@@ -67,8 +74,10 @@
       } else if (group === "greedy") {
         drawGreedy();
         runGreedy(alg);
+      } else if (group === "dp") {
+        drawDP();
+        runDP(alg);
       }
-
       updateInfo(alg);
     });
   });
