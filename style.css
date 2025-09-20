@@ -50,7 +50,7 @@ body {
 }
 
 #graph {
-  flex: 1;
+  flex: none; 
   border: 1px solid #ccc;
   background: white;
   border-radius: 8px;
@@ -95,4 +95,22 @@ line {
 
 .section.collapsed .alg-btn {
   display: none;
+}
+
+.section.collapsed .alg-btn {
+  display: none; 
+}
+
+.section h2 {
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  
+}
+
+.section h2 .arrow {
+  font-size: 16px;
+  margin-right: 8px;
+  transition: transform 0.3s ease;
 }

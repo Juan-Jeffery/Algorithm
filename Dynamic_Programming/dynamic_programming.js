@@ -7,6 +7,9 @@ let currentTask = 0;
 export function drawDP() {
   const svg = d3.select("#graph");
   svg.selectAll("*").interrupt().remove();
+  // 強制清除所有 class 結果文字（即使殘留在 svg）
+  d3.selectAll(".lcs-result").remove();
+  d3.selectAll(".knapsack-result").remove();
   // 清理所有動畫排程
   animationQueue.forEach(id => clearTimeout(id));
   animationQueue = [];
@@ -99,8 +102,9 @@ export function runDP(alg) {
           .attr("x", n * cellSize + 100)
           .attr("y", m * cellSize + 130)
           .attr("font-size", "16px")
-          .attr("fill", "#e74c3c")
-          .text(`LCS Length: ${dp[m][n]}`);
+            .attr("fill", "#e74c3c")
+            .attr("class", "lcs-result")
+            .text(`LCS Length: ${dp[m][n]}`);
 
         // 標記每個 col 最大值第一次出現的格子為深綠色
         for (let col = 0; col <= n; col++) {
@@ -211,6 +215,7 @@ export function runDP(alg) {
           .attr("y", n * cellSize + 130)
           .attr("font-size", "16px")
           .attr("fill", "#e74c3c")
+          .attr("class", "knapsack-result")
           .text(`If weight = ${W}, Max Value: ${dp[n][W]}`);
 
         for (let w2 = 0; w2 <= W; w2++) {

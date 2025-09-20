@@ -95,6 +95,30 @@ export function updateInfo(alg) {
       intro: "Compute shortest paths between all pairs using DP. (使用動態規劃更新距離矩陣，能處理正/負權邊)",
       method: "建立距離矩陣 dist，初始值為邊的權重。對於每個中繼點 k，檢查是否通過 k 可以縮短從 i 到 j 的距離：若 `dist[i][j] > dist[i][k] + dist[k][j]`，則更新為後者。重複直到所有節點處理完，得到所有點對間的最短距離。",
       suitable: "All-pairs shortest paths, graph analysis."
+    },
+    NQueens: {
+      name: "N-Queens Problem",
+      time: "O(N!)",
+      space: "O(N^2)",
+      intro: "Place N queens on an N×N chessboard such that no two queens attack each other.",
+      method: "使用回溯法逐列放置皇后，若當前位置不安全則回退到前一步嘗試其他位置，直到找到一個有效解或遍歷完所有可能。",
+      suitable: "Constraint satisfaction, chess puzzles."
+    },
+    Sudoku: {
+      name: "Sudoku Solver",
+      time: "Exponential (worst case)",
+      space: "O(N^2)",
+      intro: "Fill a 9×9 Sudoku grid using backtracking search.",
+      method: "逐格填入1~9，檢查行、列與子方格是否合法，若不合法則回退，繼續嘗試其他數字，直到整個數獨被填滿。",
+      suitable: "Puzzle solving, constraint satisfaction."
+    },
+    SubsetSum: {
+      name: "Subset Sum Problem",
+      time: "O(2^n)",
+      space: "O(n)",
+      intro: "Determine if there exists a subset with sum equal to target.",
+      method: "使用回溯法嘗試包含或不包含當前元素，累積和若超過目標則回退，直到找到一組符合條件的子集或遍歷完所有組合。",
+      suitable: "Optimization, combinatorial problems."
     }
   };
 
@@ -106,8 +130,8 @@ export function updateInfo(alg) {
     <h3>${info.name}</h3>
     <p><strong>Time Complexity:</strong> ${info.time}</p>
     <p><strong>Space Complexity:</strong> ${info.space}</p>
-    <p><em>${info.intro}</em></p>
-    <p><em>${info.method}</em></p>
+    <p><strong>intro:</strong> ${info.intro}</p>
+    <p><strong>method:</strong> ${info.method}</p>
     <p><strong>Suitable for:</strong> ${info.suitable}</p>
   `;
 }
