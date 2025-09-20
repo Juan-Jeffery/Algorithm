@@ -35,22 +35,40 @@ export function runSort(alg) {
   const values = bars.map(bar => parseInt(bar.getAttribute("height")) / 4);
   const delay = 400;
   const taskId = newTask(); // 🔑 新任務 ID，每次 runSort 都會自動停止舊動畫
-
-  function swap(i, j) {
-    const x_i = d3.select(bars[i]).attr("x");
-    const x_j = d3.select(bars[j]).attr("x");
-    d3.select(bars[i]).transition().duration(delay / 2).attr("x", x_j);
-    d3.select(bars[j]).transition().duration(delay / 2).attr("x", x_i);
-
-    [bars[i], bars[j]] = [bars[j], bars[i]];
-
-    const idx_i = bars[i].getAttribute("data-idx");
-    const idx_j = bars[j].getAttribute("data-idx");
-    bars[i].setAttribute("data-idx", idx_j);
-    bars[j].setAttribute("data-idx", idx_i);
-
-    [values[i], values[j]] = [values[j], values[i]];
+  function resetColors() {
+    d3.selectAll("rect.bar").attr("fill", "#A7C7E7");
   }
+  function swap(i, j) {
+  // 標記正在交換的 bar
+  resetColors();
+  d3.select(bars[i]).attr("fill", "orange");
+  d3.select(bars[j]).attr("fill", "orange");
+
+  const x_i = d3.select(bars[i]).attr("x");
+  const x_j = d3.select(bars[j]).attr("x");
+
+  // 動畫交換位置
+  d3.select(bars[i])
+    .transition().duration(delay / 2)
+    .attr("x", x_j)
+    .on("end", function () { d3.select(this).attr("fill", "#A7C7E7"); });
+
+  d3.select(bars[j])
+    .transition().duration(delay / 2)
+    .attr("x", x_i)
+    .on("end", function () { d3.select(this).attr("fill", "#A7C7E7"); });
+
+  // 更新 bars 和 values
+  [bars[i], bars[j]] = [bars[j], bars[i]];
+  [values[i], values[j]] = [values[j], values[i]];
+
+  // 修正 data-idx
+  const idx_i = bars[i].getAttribute("data-idx");
+  const idx_j = bars[j].getAttribute("data-idx");
+  bars[i].setAttribute("data-idx", idx_j);
+  bars[j].setAttribute("data-idx", idx_i);
+  }
+
 
   if (alg === "Bubble") {
     let i = 0, j = 0;
@@ -163,7 +181,10 @@ export function runSort(alg) {
 
     function step() {
       if (taskId !== getCurrentTaskId()) return;
-      if (stack.length === 0) return;
+      if (stack.length === 0) {
+        resetColors(); // 統一重設顏色，避免橘色殘留
+        return;
+      }
 
       let [l, r] = stack.pop();
       if (l < r) {
@@ -173,18 +194,32 @@ export function runSort(alg) {
           if (values[j] < pivot) {
             [values[i], values[j]] = [values[j], values[i]];
             [bars[i], bars[j]] = [bars[j], bars[i]];
-            d3.select(bars[i]).transition().duration(delay / 2).attr("x", i * 35).attr("data-idx", i);
-            d3.select(bars[j]).transition().duration(delay / 2).attr("x", j * 35).attr("data-idx", j);
+            d3.select(bars[i])
+              .attr("fill", "orange")
+              .transition().duration(delay / 2)
+              .attr("x", i * 35)
+              .attr("data-idx", i)
+              .on("end", function () { d3.select(this).attr("fill", "#A7C7E7"); });
+
+            d3.select(bars[j])
+              .attr("fill", "orange")
+              .transition().duration(delay / 2)
+              .attr("x", j * 35)
+              .attr("data-idx", j)
+              .on("end", function () { d3.select(this).attr("fill", "#A7C7E7"); });
             i++;
           }
         }
-        [values[i], values[r]] = [values[r], values[i]];
-        [bars[i], bars[r]] = [bars[r], bars[i]];
-        d3.select(bars[i]).transition().duration(delay / 2).attr("x", i * 35).attr("data-idx", i);
-        d3.select(bars[r]).transition().duration(delay / 2).attr("x", r * 35).attr("data-idx", r);
+  [values[i], values[r]] = [values[r], values[i]];
+  [bars[i], bars[r]] = [bars[r], bars[i]];
+  d3.select(bars[i]).transition().duration(delay / 2).attr("x", i * 35).attr("data-idx", i);
+  d3.select(bars[r]).transition().duration(delay / 2).attr("x", r * 35).attr("data-idx", r);
+  // swap 完後，確保 pivot bar 及 bar[i] 都設回預設顏色
+  d3.select(bars[i]).attr("fill", "#A7C7E7");
+  d3.select(bars[r]).attr("fill", "#A7C7E7");
 
-        stack.push([l, i - 1]);
-        stack.push([i + 1, r]);
+  stack.push([l, i - 1]);
+  stack.push([i + 1, r]);
       }
       schedule(step, delay, taskId);
     }
