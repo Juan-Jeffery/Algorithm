@@ -87,3 +87,12 @@ line {
 #info p {
   margin: 8px 0;
 }
+
+.section h2 {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.section.collapsed .alg-btn {
+  display: none;
+}
