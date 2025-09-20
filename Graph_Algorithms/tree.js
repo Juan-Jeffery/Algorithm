@@ -79,7 +79,7 @@ export function drawTree() {
     .attr("cy", d => d.y + 50)
     .attr("r", 25)
     .attr("fill", morandiBlue)
-    .attr("stroke", "#34495e")
+    .attr("stroke", "#000000ff")
     .attr("stroke-width", 2)
     .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))");
 
@@ -94,7 +94,7 @@ export function drawTree() {
     .attr("x", d => d.x + 50)
     .attr("y", d => d.y + 55)
     .attr("text-anchor", "middle")
-    .attr("fill", "#2c3e50")
+    .attr("fill", "#000000ff")
     .text(d => labels[labelIndex++]);
 
   // 邊權重標籤
@@ -114,7 +114,8 @@ export function drawTree() {
 
 export function runAlgorithm(alg) {
   // 停掉所有動畫
-  svg.selectAll("*").interrupt().attr("fill", morandiBlue);
+  svg.selectAll("text.node-label").interrupt().attr("fill", "#000000");
+  svg.selectAll("*:not(text)").interrupt().attr("fill", morandiBlue);
 
   const taskId = newTask(); // 新任務 ID
   let order = [];
