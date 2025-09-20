@@ -1,4 +1,5 @@
 # Algorithms
+https://juan-jeffery.github.io/Algorithm/main.html
 
 ## 1. Sorting Algorithms
 - Bubble Sort  
@@ -20,27 +21,22 @@
 - Knapsack Problem  
 - Floyd-Warshall Algorithm (shortest paths with positive/negative weights)  
 
-## 5. Divide and Conquer
-- Merge Sort  
-- Quick Sort  
-- Binary Search  
-
-## 6. Backtracking
+## 5. Backtracking
 - N-Queens Problem  
 - Sudoku Solver  
 - Subset Sum Problem  
 
-## 7. String Algorithms
+## 6. String Algorithms
 - Rabin-Karp Algorithm  
 - Knuth-Morris-Pratt (KMP) Algorithm  
 - Boyer-Moore Algorithm  
 
-## 8. Computational Geometry
+## 7. Computational Geometry
 - Convex Hull  
 - Line Intersection  
 - Closest Pair of Points  
 
-## 9. Number Theory Algorithms
+## 8. Number Theory Algorithms
 - Euclidean Algorithm  
 - Greatest Common Divisor (GCD)  
 - Extended Euclidean Algorithm  
@@ -48,12 +44,12 @@
 - Modular Exponentiation  
 - Chinese Remainder Theorem  
 
-## 10. Advanced Graph Algorithms
+## 9. Advanced Graph Algorithms
 - Bellman-Ford Algorithm  
 - Kruskal’s Algorithm (minimum spanning tree)  
 - Prim’s Algorithm (minimum spanning tree)  
 
-## 11. Machine Learning Algorithms
+## 10. Machine Learning Algorithms
 - K-Nearest Neighbors (KNN)  
 - K-Means Clustering  
 - Decision Trees  

@@ -1,22 +1,21 @@
-// taskManager.js
 let currentTaskId = 0;
-let currentTimer = null;
+let timers = [];
 
 export function newTask() {
   currentTaskId++;
-  if (currentTimer) {
-    clearTimeout(currentTimer);
-    currentTimer = null;
-  }
+  // 清除所有舊任務的排程
+  timers.forEach(id => clearTimeout(id));
+  timers = [];
   return currentTaskId;
 }
 
 export function schedule(fn, delay, taskId) {
-  currentTimer = setTimeout(() => {
+  const id = setTimeout(() => {
     if (taskId === currentTaskId) {
       fn();
     }
   }, delay);
+  timers.push(id);
 }
 
 export function getCurrentTaskId() {

@@ -9,23 +9,35 @@
 <body>
 <div id="main">
   <div id="sidebar">
-    <div class="section">
-      <h2>Graph Algorithms</h2>
+    <div class="section collapsed">
+      <h2><span class="arrow">▶</span> Graph Algorithms</h2>
       <div class="alg-btn" data-group="graph" data-alg="BFS">BFS</div>
       <div class="alg-btn" data-group="graph" data-alg="DFS">DFS</div>
       <div class="alg-btn" data-group="graph" data-alg="Dijkstra">Dijkstra</div>
     </div>
-    <div class="section">
-      <h2>Sorting Algorithms</h2>
+    <div class="section collapsed">
+      <h2><span class="arrow">▶</span> Sorting Algorithms</h2>
       <div class="alg-btn" data-group="sort" data-alg="Bubble">Bubble Sort</div>
       <div class="alg-btn" data-group="sort" data-alg="Insertion">Insertion Sort</div>
       <div class="alg-btn" data-group="sort" data-alg="Merge">Merge Sort</div>
       <div class="alg-btn" data-group="sort" data-alg="Quick">Quick Sort</div>
     </div>
-    <div class="section">
-      <h2>Greedy Algorithms</h2>
+    <div class="section collapsed">
+      <h2><span class="arrow">▶</span> Greedy Algorithms</h2>
       <div class="alg-btn" data-group="greedy" data-alg="Huffman">Huffman Coding</div>
       <div class="alg-btn" data-group="greedy" data-alg="Activity">Activity Selection</div>
+    </div>
+    <div class="section collapsed">
+      <h2><span class="arrow">▶</span> Dynamic Programming</h2>
+      <div class="alg-btn" data-group="dp" data-alg="LCS">Longest Common Subsequence</div>
+      <div class="alg-btn" data-group="dp" data-alg="Knapsack">Knapsack Problem</div>
+      <div class="alg-btn" data-group="dp" data-alg="Floyd-Warshall">Floyd-Warshall</div>
+    </div>
+    <div class="section collapsed">
+      <h2><span class="arrow">▶</span> Backtracking</h2>
+      <div class="alg-btn" data-group="backtracking" data-alg="NQueens">N-Queens</div>
+      <div class="alg-btn" data-group="backtracking" data-alg="Sudoku">Sudoku Solver</div>
+      <div class="alg-btn" data-group="backtracking" data-alg="SubsetSum">Subset Sum</div>
     </div>
   </div>
   <div id="graph-area">
@@ -40,11 +52,20 @@
   import { drawTree, runAlgorithm as runGraph } from './Graph_Algorithms/tree.js';
   import { drawBars, runSort } from './Sorting_Algorithms/sort.js';
   import { drawGreedy, runGreedy } from './Greedy_Algorithms/greedy.js';
+  import { drawDP, runDP } from './Dynamic_Programming/dynamic_programming.js';
+  import { runBacktracking } from "./Backtracking/backtracking.js";
   import { updateInfo } from './info.js';
   document.querySelectorAll("#sidebar .section h2").forEach(header => {
     header.addEventListener("click", () => {
       const section = header.parentElement;
       section.classList.toggle("collapsed");
+
+      const arrow = header.querySelector(".arrow");
+      if (section.classList.contains("collapsed")) {
+        arrow.textContent = "▶";
+      } else {
+        arrow.textContent = "▼";
+      }
     });
   });
   // default view
@@ -67,8 +88,12 @@
       } else if (group === "greedy") {
         drawGreedy();
         runGreedy(alg);
+      } else if (group === "dp") {
+        drawDP();
+        runDP(alg);
+      } else if (group === "backtracking") {
+        runBacktracking(alg);
       }
-
       updateInfo(alg);
     });
   });
